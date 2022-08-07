@@ -13,6 +13,6 @@ public abstract class Person {
     private Long name;
     private Long dob;
 
-    public abstract  String showMyDetail();
+    public  abstract  String showMyDetail(Long id);
     public abstract  String updateMyDetail();
 }

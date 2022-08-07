@@ -1,8 +1,6 @@
 package com.candidateresult;
 
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 
 import lombok.Setter;
@@ -14,7 +12,7 @@ public class Candidate extends Person implements Print{
     private Long id;
     private String name;
     private String standard;
-    private Date dob;
+    private String dob;
     private String fatherName;
 
 
@@ -48,11 +46,6 @@ public class Candidate extends Person implements Print{
         return result;
     }
 
-    @Override
-    public String showMyDetail() {
-        System.out.println("_______________________________________________________________");
-        return this.toString();
-    }
 
     public Long getId() {
         return id;
@@ -66,7 +59,7 @@ public class Candidate extends Person implements Print{
         return standard;
     }
 
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
@@ -78,7 +71,7 @@ public class Candidate extends Person implements Print{
 
     @Override
     public String toString() {
-        return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\ndob => " + dob + "\nfatherName =>  "  + fatherName + "\nid =>          " + id + "\nname =>        " + name + "\nstandard =>    "
+        return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\ndob =>         " + dob + "\nfatherName =>  "  + fatherName + "\nid =>          " + id + "\nname =>        " + name + "\nstandard =>    "
                 + standard + "\n"+ConsoleColors.RESET;
     }
 
@@ -116,6 +109,13 @@ public class Candidate extends Person implements Print{
     public String printRankList() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String showMyDetail(Long id) {
+        // TODO Auto-generated method stub
+        System.out.println("_______________________________________________________________");
+        return this.toString();
     }
 
 }
