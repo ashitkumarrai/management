@@ -1,5 +1,6 @@
 package com.candidateresult;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,9 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
-
-import java.awt.Desktop;
-import java.io.IOException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,6 +84,7 @@ public class App {
     }
 
     public static void main(String[] args) throws SQLException {
+        String line = "_______________________________________________________________";
 
         int choice = welcome();
         if (choice == 0) {
@@ -93,8 +92,7 @@ public class App {
             System.exit(choice);
         }
         if (choice == 1) {
-            // log.info(ConsoleColors.BLUE_BOLD + "View Result screen: " +
-            // ConsoleColors.WHITE_BOLD_BRIGHT);
+          
             System.out.println(ConsoleColors.PURPLE_BOLD + "Enter Your RollNumber: " + ConsoleColors.RESET);
 
             String sql = "select * from candidate where id=?";
@@ -132,12 +130,13 @@ public class App {
             if (!empty) {
                c1 = new Candidate(id, name, standard, dob, fatherName);
                r1 = new Result(physics, chemistry, mathematics, computerScience, english);
-                System.out.println("_______________________________________________________________");
+               
+               System.out.println(line);
 
                 System.out.println(c1.showMyDetail(id));
-                System.out.println("_______________________________________________________________");
+                System.out.println(line);
                 System.out.println(r1);
-                System.out.println("_______________________________________________________________");
+                System.out.println(line);
 
                 
             } else {
@@ -201,7 +200,7 @@ public class App {
                 if (answer1 == 1) {
 
                     Admin.createResult();
-                    System.out.println("_______________________________________________________________");
+                    System.out.println(line);
 
                 }
 
@@ -209,7 +208,7 @@ public class App {
                     System.out.println("            " + ConsoleColors.BLUE_UNDERLINED
                             + "(ROOTPIN is secret & read only by admin level\tfor changing the ROOTPIN contact s/w developer)\n\t\tCurrent ROOTPIN : "
                             + "20222022" + ConsoleColors.RESET);
-                    System.out.println("_______________________________________________________________");
+                            System.out.println(line);
 
                 }
 
@@ -217,7 +216,7 @@ public class App {
 
                     Admin admin = new Admin();
                     System.out.println(admin.showMyDetail(Admin.id));
-                    System.out.println("_______________________________________________________________");
+                    System.out.println(line);
 
                 }
 
@@ -227,7 +226,7 @@ public class App {
         if (choice == 3) {
             //new admin register
             System.out.println(Admin.register());
-            System.out.println("_______________________________________________________________");
+            System.out.println(line);
 
 
 
