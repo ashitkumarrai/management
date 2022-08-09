@@ -14,5 +14,5 @@ public abstract class Person {
     private Long dob;
 
     public  abstract  String showMyDetail(Long id);
-    public abstract  String updateMyDetail();
+  
 }

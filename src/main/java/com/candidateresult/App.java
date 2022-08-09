@@ -80,7 +80,6 @@ public class App {
 
     public static void main(String[] args) throws SQLException {
 
-       
         int choice = welcome();
         if (choice == 0) {
             // 0 means termination is successful
@@ -95,18 +94,16 @@ public class App {
             ResultSet rs = null;
             boolean empty = true;
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                    PreparedStatement pst = conn.prepareStatement(sql);
-            ) {
+                    PreparedStatement pst = conn.prepareStatement(sql);) {
                 Scanner sc1 = new Scanner(System.in);
                 String tmp = sc1.nextLine();
                 Long rollnumber = Long.parseLong(tmp);
                 pst.setLong(1, rollnumber);
 
                 rs = pst.executeQuery();
-                
-              
+
                 while (rs.next()) {
-                     empty = false;
+                    empty = false;
                     id = rs.getLong("id");
                     name = rs.getString("name");
                     standard = rs.getString("standard");
@@ -117,9 +114,6 @@ public class App {
                     mathematics = rs.getFloat("mathematics");
                     computerScience = rs.getFloat("computerScience");
                     english = rs.getFloat("english");
-             
-
-
 
                 }
 
@@ -128,26 +122,27 @@ public class App {
 
             }
 
-
             if (!empty) {
                 Candidate c1 = new Candidate(id, name, standard, dob, fatherName);
                 Result r1 = new Result(physics, chemistry, mathematics, computerScience, english);
                 System.out.println("_______________________________________________________________");
 
                 System.out.println(c1.showMyDetail(id));
+                System.out.println("_______________________________________________________________");
                 System.out.println(r1);
+                System.out.println("_______________________________________________________________");
+            } else {
+                System.out.println("\n                          " + ConsoleColors.RED_BOLD_BRIGHT
+                        + "Does Not Matches Any Result Try Again...\n" + ConsoleColors.RESET);
             }
-            else {
-               System.out.println("\n                          "+ConsoleColors.RED_BOLD_BRIGHT+"Does Not Matches Any Result Try Again...\n"+ConsoleColors.RESET ); 
-            }
-            
 
         }
         if (choice == 2) {
 
             String message = Admin.login();
-            if (message!=null) {
-                System.out.println(""+ ConsoleColors.GREEN_BOLD+"                        __ __ __ __ __ __ ____ __ ");
+            if (message != null) {
+                System.out
+                        .println("" + ConsoleColors.GREEN_BOLD + "                        __ __ __ __ __ __ ____ __ ");
                 System.out.println("                       |                          | ");
                 System.out.println("                       |   0: Logout              | ");
                 System.out.println("                       |                          | ");
@@ -155,53 +150,61 @@ public class App {
                 System.out.println("                       |                          | ");
                 System.out.println("                       |   2: view Pin            | ");
                 System.out.println("                       |                          | ");
+                System.out.println("                       |   3: showMyDetail        | ");
                 System.out.println("                       |___ __ __ __ __ __ __ ____| ");
-                System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
-                + ConsoleColors.RESET);
+                System.out
+                        .println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
+                                + ConsoleColors.RESET);
                 Scanner sc1 = new Scanner(System.in);
                 int answer1 = Integer.parseInt(sc1.nextLine());
-                while (answer1 != 0 && answer1 != 1 && answer1 != 2) {
-                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1||2 to continue");
+                while (answer1 != 0 && answer1 != 1 && answer1 != 2 && answer1 != 3) {
+                    System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1||2||3 to continue");
                     answer1 = Integer.parseInt(sc1.nextLine());
-                    if (answer1 == 0) {
-                        main(args);
-                    }
-
-                    if (answer1 == 1) {
-
-                        Admin.createResult();
-
-                    }
-
-                    if (answer1 == 2) {
-                        System.out.println("            " + ConsoleColors.BLUE_UNDERLINED
-                                + "(ROOTPIN is secret & read only by admin level\tfor changing the ROOTPIN contact s/w developer)\n\t\tCurrent ROOTPIN : "
-                                + "20222022" + ConsoleColors.RESET);
-
-                    }
                 }
-                
-                
-        
+                if (answer1 == 0) {
+                    main(args);
+                }
+
+                if (answer1 == 1) {
+
+                    Admin.createResult();
+                    System.out.println("_______________________________________________________________");
+
+                }
+
+                if (answer1 == 2) {
+                    System.out.println("            " + ConsoleColors.BLUE_UNDERLINED
+                            + "(ROOTPIN is secret & read only by admin level\tfor changing the ROOTPIN contact s/w developer)\n\t\tCurrent ROOTPIN : "
+                            + "20222022" + ConsoleColors.RESET);
+                    System.out.println("_______________________________________________________________");
+
+                }
+
+                if (answer1 == 3) {
+
+                    Admin admin = new Admin();
+                    System.out.println(admin.showMyDetail(Admin.id));
+                    System.out.println("_______________________________________________________________");
+
+                }
+
             }
 
-
-                
-
-            
-
-
-
-        
         }
         if (choice == 3) {
             //new admin register
-        
-            
+            System.out.println(Admin.register());
+            System.out.println("_______________________________________________________________");
+
+
+
         }
         main(args);
-        System.out.println(""+ConsoleColors.RESET);
+        System.out.println("" + ConsoleColors.RESET);
 
     }
+    
+
+    
 
 }

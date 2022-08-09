@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @AllArgsConstructor
-public class Candidate extends Person implements Print{
+public class Candidate extends Person{
     private Long id;
     private String name;
     private String standard;
@@ -75,11 +75,7 @@ public class Candidate extends Person implements Print{
                 + standard + "\n"+ConsoleColors.RESET;
     }
 
-    @Override
-    public String updateMyDetail() {
-        System.out.println("_______________________________________________________________");
-        return ConsoleColors.RED_BOLD_BRIGHT + "contact your " + standard + "teacher for updation";
-    }
+  
     
 
 
@@ -87,30 +83,10 @@ public class Candidate extends Person implements Print{
 
 
 
-    @Override
-    public String printResult(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+   
+    
 
-    @Override
-    public String viewResult(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String viewRank() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String printRankList() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+ 
     @Override
     public String showMyDetail(Long id) {
         // TODO Auto-generated method stub
