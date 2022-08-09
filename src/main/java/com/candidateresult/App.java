@@ -131,6 +131,8 @@ public class App {
                 System.out.println("_______________________________________________________________");
                 System.out.println(r1);
                 System.out.println("_______________________________________________________________");
+
+                System.out.println(Print.printpdf(c1,r1,id));
             } else {
                 System.out.println("\n                          " + ConsoleColors.RED_BOLD_BRIGHT
                         + "Does Not Matches Any Result Try Again...\n" + ConsoleColors.RESET);

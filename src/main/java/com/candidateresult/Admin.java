@@ -16,7 +16,7 @@ public class Admin extends Person {
 
     @Override
     public String showMyDetail(Long id) {
-        System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"+id);
+
         
         return ConsoleColors.CYAN_BOLD_BRIGHT+"\t\tAdmin Details:\n\nid =>         " +id + "\nuserName =>  "  + username + "\n"+ConsoleColors.RESET;
     }
