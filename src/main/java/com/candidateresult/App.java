@@ -137,13 +137,7 @@ public class App {
                 System.out.println(line);
                 System.out.println(r1);
                 System.out.println(line);
-
-                
-            } else {
-                System.out.println("\n                          " + ConsoleColors.RED_BOLD_BRIGHT
-                        + "Does Not Matches Any Result Try Again...\n" + ConsoleColors.RESET);
-            }
-            System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
+                System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
             try{
             	Scanner sc5 = new Scanner(System.in);
 
@@ -166,6 +160,12 @@ public class App {
             	e.printStackTrace();
             }
            
+
+                
+            } else {
+                System.out.println("\n                          " + ConsoleColors.RED_BOLD_BRIGHT
+                        + "Does Not Matches Any Result Try Again...\n" + ConsoleColors.RESET);
+            }
         
 
         }
