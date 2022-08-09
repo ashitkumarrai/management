@@ -1,11 +1,15 @@
 package com.candidateresult;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import java.awt.Desktop;
+import java.io.IOException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +37,10 @@ public class App {
     static Float percentage;
     static int count = 0;
 
-    static final int  ROOTPIN=20222022; 
+    static final int ROOTPIN = 20222022;
+    
+    static Candidate c1;
+    static Result r1;
 
     static int welcome() {
         if (count == 0) {
@@ -123,8 +130,8 @@ public class App {
             }
 
             if (!empty) {
-                Candidate c1 = new Candidate(id, name, standard, dob, fatherName);
-                Result r1 = new Result(physics, chemistry, mathematics, computerScience, english);
+               c1 = new Candidate(id, name, standard, dob, fatherName);
+               r1 = new Result(physics, chemistry, mathematics, computerScience, english);
                 System.out.println("_______________________________________________________________");
 
                 System.out.println(c1.showMyDetail(id));
@@ -132,11 +139,35 @@ public class App {
                 System.out.println(r1);
                 System.out.println("_______________________________________________________________");
 
-                System.out.println(Print.printpdf(c1,r1,id));
+                
             } else {
                 System.out.println("\n                          " + ConsoleColors.RED_BOLD_BRIGHT
                         + "Does Not Matches Any Result Try Again...\n" + ConsoleColors.RESET);
             }
+            System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
+            try{
+            	Scanner sc5 = new Scanner(System.in);
+
+            int printChoice = sc5.nextInt();
+            while (printChoice != 0 && printChoice != 1) {
+                System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0|1 to continue"+ConsoleColors.RESET);
+                printChoice = sc5.nextInt();
+            }
+            if (printChoice == 1) {
+                System.out.println(Print.printpdf(c1, r1, id));
+              //pdf file, should be opening in default text editor or web browser
+                File file = new File(String.format(".\\result%d.pdf", id));
+                
+                Desktop desktop = Desktop.getDesktop();
+                if(file.exists()) desktop.open(file);
+
+            }
+            }
+            catch(Exception e) {
+            	e.printStackTrace();
+            }
+           
+        
 
         }
         if (choice == 2) {

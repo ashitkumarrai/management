@@ -71,8 +71,8 @@ public class Candidate extends Person{
 
     @Override
     public String toString() {
-        return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\ndob =>         " + dob + "\nfatherName =>  "  + fatherName + "\nid =>          " + id + "\nname =>        " + name + "\nstandard =>    "
-                + standard + "\n"+ConsoleColors.RESET;
+        return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\nID =>          " + id + "\nNAME =>        "  + name + "\nFATHER NAME => " + fatherName +"\nstandard =>    "
+                + standard + "\nD.O.B =>       " + dob +"\n"+ConsoleColors.RESET+"\n";
     }
 
   

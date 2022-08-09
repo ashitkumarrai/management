@@ -30,6 +30,6 @@ public class Result {
 
     @Override
     public String toString() {
-        return ""+ConsoleColors.BLUE_BOLD_BRIGHT+"Candidate Result:\n\nPHYSICS   CHEMISTRY   MATHEMATICS   COMPUTER-SCIENCE   ENGLISH    \n"+ConsoleColors.CYAN_BOLD_BRIGHT+physics+"       "+chemistry+"         "+mathematics+"            "+computerScience+"              "+english+ ConsoleColors.GREEN_BOLD_BRIGHT+"\n\n\t MARKS OBTAINED     TOTAL MARKS    STATUS    PERCENTAGE"+"\n\t   "+ConsoleColors.CYAN_BOLD_BRIGHT+marksObtained+"            "+totalMarks+"            " + status+"        " + percentage+"\n"+ConsoleColors.RESET;
+        return ""+ConsoleColors.BLUE_BOLD_BRIGHT+"Candidate Result:\n\nPHYSICS   CHEMISTRY   MATHEMATICS   COMPUTER-SCIENCE   ENGLISH    \n"+ConsoleColors.CYAN_BOLD_BRIGHT+physics+"       "+chemistry+"         "+mathematics+"            "+computerScience+"              "+english+ ConsoleColors.GREEN_BOLD_BRIGHT+"\n\n"+"      "+" MARKS OBTAINED     TOTAL MARKS    STATUS    PERCENTAGE"+"\n        "+ConsoleColors.CYAN_BOLD_BRIGHT+marksObtained+"                "+totalMarks+"        " + status+"        " + percentage+"\n"+ConsoleColors.RESET;
     }
 }
