@@ -1,6 +1,7 @@
 package com.candidateresult;
 
 
+import de.vandermeer.asciitable.AsciiTable;
 import lombok.AllArgsConstructor;
 
 import lombok.Setter;
@@ -71,10 +72,34 @@ public class Candidate extends Person{
 
     @Override
     public String toString() {
-        return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\nID =>          " + id + "\nNAME =>        "  + name + "\nFATHER NAME => " + fatherName +"\nstandard =>    "
-                + standard + "\nD.O.B =>       " + dob +"\n"+ConsoleColors.RESET+"\n";
+        String mssg = ""+ ConsoleColors.CYAN_BOLD_BRIGHT;
+        AsciiTable at = new AsciiTable();
+        
+        at.addRule();
+        at.addRow("ID", id);
+        at.addRule();
+        
+        at.addRow("NAME", name);
+        at.addRule();
+        
+        at.addRow("FATHER NAME", fatherName);
+        at.addRule();
+        
+        at.addRow("STANDARD", standard);
+        at.addRule();
+        
+        at.addRow("D.O.B", dob);
+        at.addRule();
+        
+        String rend = "";
+        rend = mssg+ at.render();
+        return rend;
     }
 
+    public String printpdf() {
+    	return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\nID =>          " + id + "\nNAME =>        "  + name + "\nFATHER NAME => " + fatherName +"\nstandard =>    "
+                + standard + "\nD.O.B =>       " + dob +"\n"+ConsoleColors.RESET+"\n";
+    }
   
     
 

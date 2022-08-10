@@ -133,12 +133,12 @@ public class App {
                c1 = new Candidate(id, name, standard, dob, fatherName);
                r1 = new Result(physics, chemistry, mathematics, computerScience, english);
                
-               System.out.println(line);
+              
 
                 System.out.println(c1.showMyDetail(id));
-                System.out.println(line);
+             
                 System.out.println(r1);
-                System.out.println(line);
+              
                 System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
             try{
             	Scanner sc5 = new Scanner(System.in);
@@ -234,9 +234,9 @@ public class App {
 
         }
         if(choice == 4){
-            System.out.println(line);
+           
             Print.rankList();
-            System.out.println(line);
+     
         }
         main(args);
         System.out.println("" + ConsoleColors.RESET);

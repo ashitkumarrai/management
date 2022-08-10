@@ -19,6 +19,8 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import de.vandermeer.asciitable.AsciiTable;
 public class Print {
     
 
@@ -31,7 +33,7 @@ public class Print {
             PdfWriter writer = PdfWriter.getInstance(document,
                     new FileOutputStream(String.format(".\\result%d.pdf", id)));
             document.open();
-            String text = c.showMyDetail(id);
+            String text = c.printpdf();
 
             text = text.replaceAll("(\\[[1;96024]*m)", "");
 
@@ -140,7 +142,18 @@ public class Print {
             rs = pst.executeQuery();
             List<String[ ] > rankList = new ArrayList<String[ ] >();
           
-            System.out.println(""+ConsoleColors.GREEN_BOLD_BRIGHT +"Id:"+"\t"+"NAME:"+"\t\t"+"PERCENTAGE:"+"\n"+ConsoleColors.CYAN_BOLD);
+
+            AsciiTable at = new AsciiTable();
+            AsciiTable at2 = new AsciiTable();
+          
+            at2.addRule();
+            at2.addRow("ID", "NAME", "PERCENTAGE");
+            at2.addRule();
+            String rend = "";
+            String rend2 = at2.render();
+            System.out.println(""+ConsoleColors.GREEN_BOLD_BRIGHT);
+            System.out.println(rend2);
+            System.out.println(""+ConsoleColors.CYAN_BOLD);
             while (rs.next()) {
 
                 id = rs.getLong("id");
@@ -148,10 +161,17 @@ public class Print {
                 percentage = rs.getFloat("percentage");
                 String row[] = { String.valueOf(id), String.valueOf(name), String.valueOf(percentage) };
                 rankList.add(row);
-                System.out.println(id + "  " + name + "   " +  percentage + "\n");
+            
+
+                at.addRow(id, name, percentage);
+                
+                at.addRule();
+                
 
             }
-            System.out.println(App.line);
+            rend = at.render();
+            System.out.println(rend+"\n");
+  
             System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
         try{
             Scanner sc5 = new Scanner(System.in);

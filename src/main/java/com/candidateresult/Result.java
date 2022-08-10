@@ -1,5 +1,6 @@
 package com.candidateresult;
 
+import de.vandermeer.asciitable.AsciiTable;
 import lombok.Data;
 
 @Data
@@ -30,6 +31,23 @@ public class Result {
 
     @Override
     public String toString() {
-        return ""+ConsoleColors.BLUE_BOLD_BRIGHT+"Candidate Result:\n\nPHYSICS   CHEMISTRY   MATHEMATICS   COMPUTER-SCIENCE   ENGLISH    \n"+ConsoleColors.CYAN_BOLD_BRIGHT+physics+"       "+chemistry+"         "+mathematics+"            "+computerScience+"              "+english+ ConsoleColors.GREEN_BOLD_BRIGHT+"\n\n"+"      "+" MARKS OBTAINED     TOTAL MARKS    STATUS    PERCENTAGE"+"\n        "+ConsoleColors.CYAN_BOLD_BRIGHT+marksObtained+"                "+totalMarks+"        " + status+"        " + percentage+"\n"+ConsoleColors.RESET;
+        String mssg = ""+ ConsoleColors.BLUE_BOLD_BRIGHT;
+        AsciiTable at = new AsciiTable();
+        AsciiTable at1 = new AsciiTable();
+        
+        at.addRule();
+        at.addRow("PHYSICS", "CHEMISTRY","MATHEMATICS","CS","ENGLISH");
+        at.addRule();
+        at1.addRule();
+        
+        at1.addRow(physics,chemistry,mathematics,computerScience,english);
+        at1.addRule();
+        
+
+        String rend2 = at1.render();
+        String rend = "";
+        rend = mssg+ at.render();
+        
+        return "Candidate Result:\n\n"+rend+ConsoleColors.CYAN_BOLD_BRIGHT+rend2+"\n\n"+"      "+" MARKS OBTAINED     TOTAL MARKS    STATUS    PERCENTAGE"+"\n        "+ConsoleColors.BLUE_BOLD+marksObtained+"                "+totalMarks+"        " + status+"        " + percentage+"\n"+ConsoleColors.RESET;
     }
 }
