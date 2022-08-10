@@ -39,6 +39,7 @@ public class App {
     
     static Candidate c1;
     static Result r1;
+    static String line = "_______________________________________________________________";
 
     static int welcome() {
         if (count == 0) {
@@ -70,13 +71,14 @@ public class App {
         System.out.println("                       |                          | ");
         System.out.println("                       |   3: new admin register  |");
         System.out.println("                       |                          | ");
+        System.out.println("                       |   4: view Rank List      |");
         System.out.println("                       |___ __ __ __ __ __ __ ____|");
         System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
                 + ConsoleColors.RESET);
         Scanner sc = new Scanner(System.in);
         int answer = Integer.parseInt(sc.nextLine());
-        while (answer != 0 && answer != 1 && answer != 2 && answer != 3) {
-            System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1||2||3 to continue");
+        while (answer != 0 && answer != 1 && answer != 2 && answer != 3 && answer != 4) {
+            System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0 || 1 || 2 || 3 || 4 to continue");
             answer = new Scanner(System.in).nextInt();
         }
 
@@ -84,7 +86,7 @@ public class App {
     }
 
     public static void main(String[] args) throws SQLException {
-        String line = "_______________________________________________________________";
+        
 
         int choice = welcome();
         if (choice == 0) {
@@ -220,6 +222,8 @@ public class App {
 
                 }
 
+              
+
             }
 
         }
@@ -228,8 +232,11 @@ public class App {
             System.out.println(Admin.register());
             System.out.println(line);
 
-
-
+        }
+        if(choice == 4){
+            System.out.println(line);
+            Print.rankList();
+            System.out.println(line);
         }
         main(args);
         System.out.println("" + ConsoleColors.RESET);
