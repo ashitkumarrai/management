@@ -48,6 +48,6 @@ public class Result {
         String rend = "";
         rend = mssg+ at.render();
         
-        return "Candidate Result:\n\n"+rend+ConsoleColors.CYAN_BOLD_BRIGHT+rend2+"\n\n"+"      "+" MARKS OBTAINED     TOTAL MARKS    STATUS    PERCENTAGE"+"\n        "+ConsoleColors.BLUE_BOLD+marksObtained+"                "+totalMarks+"        " + status+"        " + percentage+"\n"+ConsoleColors.RESET;
+        return "Candidate Result:\n\n"+rend+ConsoleColors.CYAN_BOLD_BRIGHT+"\n"+rend2+"\n\n"+"      "+" MARKS OBTAINED     TOTAL MARKS    STATUS    PERCENTAGE"+"\n        "+ConsoleColors.BLUE_BOLD+marksObtained+"                "+totalMarks+"        " + status+"        " + percentage+"\n"+ConsoleColors.RESET;
     }
 }

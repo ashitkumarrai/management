@@ -218,7 +218,7 @@ public class App {
 
                     Admin admin = new Admin();
                     System.out.println(admin.showMyDetail(Admin.id));
-                    System.out.println(line);
+                  
 
                 }
 

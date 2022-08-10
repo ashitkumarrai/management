@@ -75,6 +75,7 @@ public class Candidate extends Person{
         String mssg = ""+ ConsoleColors.CYAN_BOLD_BRIGHT;
         AsciiTable at = new AsciiTable();
         
+  
         at.addRule();
         at.addRow("ID", id);
         at.addRule();
@@ -93,7 +94,7 @@ public class Candidate extends Person{
         
         String rend = "";
         rend = mssg+ at.render();
-        return rend;
+        return ConsoleColors.CYAN_BOLD_BRIGHT+"Candidate Details:\n\n"+ConsoleColors.GREEN_BOLD+rend;
     }
 
     public String printpdf() {
@@ -115,7 +116,7 @@ public class Candidate extends Person{
     @Override
     public String showMyDetail(Long id) {
         // TODO Auto-generated method stub
-        System.out.println("_______________________________________________________________");
+     
         return this.toString();
     }
 
