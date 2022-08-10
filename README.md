@@ -2,7 +2,7 @@
 
 1. Candidates can view their Result as well print to pdf also.
 
-3. RankList of all candidates can be viewed as well print to pdf also.
+3. Ranks of all candidates can be viewed as list and also print to pdf also.
 
 2. Admin can create Candidates Result and fill Canidate details.
 
