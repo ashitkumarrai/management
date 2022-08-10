@@ -36,7 +36,8 @@ public class Admin extends Person {
         System.out.println("" + ConsoleColors.CYAN_BOLD + "Enter you password: " + ConsoleColors.RESET);
         password = sc.next();
 
-        String sql = "select * from admin where username=? and password=?";
+        String sql = "select * from admin where username LIKE BINARY ? and password LIKE BINARY ?";
+    
         ResultSet rs = null;
         boolean em = true;
         try (Connection conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASS);
