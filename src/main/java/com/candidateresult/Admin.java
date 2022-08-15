@@ -1,11 +1,28 @@
 package com.candidateresult;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+
+
 
 public class Admin extends Person {
 
@@ -71,11 +88,23 @@ public class Admin extends Person {
 
 
 
-    public static void createResult() {
+    @SuppressWarnings("null")
+	public static void createResult() {
+    	
+    	System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter 0 to input details from command line or enter 1 to read input from excel sheet: ");
+    	
+    	 Scanner sc1 = new Scanner(System.in);
+         int ans = Integer.parseInt(sc1.nextLine());
+         while (ans != 0 && ans != 1) {
+             System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1|| to continue");
+             ans = Integer.parseInt(sc1.nextLine());
+         }
         //creating results of candidates
+         Scanner sc = new Scanner(System.in);
+         Scanner sc2 = new Scanner(System.in);
+    	if(ans ==0) {
         System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter total candidates numbers to createResult: ");
-        Scanner sc = new Scanner(System.in);
-        Scanner sc2 = new Scanner(System.in);
+    
         int loop = sc.nextInt();
         for (int i = 0; i < loop; i++) {
 
@@ -95,6 +124,7 @@ public class Admin extends Person {
             String[] marks = reply2.split(",");
             for (String s : marks)
                 s.trim();
+        
 
             String sql = "insert into candidate(id,name,fatherName,dob,standard,physics,chemistry,mathematics,computerScience,english) values(?,?,?,?,?,?,?,?,?,?)";
             ResultSet rs = null;
@@ -137,10 +167,114 @@ public class Admin extends Person {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+    	}
+        
+    	   if (ans == 1) {
+               System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter excel file path (absolute path): "+ConsoleColors.RESET);
 
-    }
+               String filePath = new Scanner(System.in).nextLine();
+            
+
+             FileInputStream inputStream = null;
+   			try {
+   				 inputStream = new FileInputStream(new File(String.format(filePath)));
+   			} catch (FileNotFoundException e) {
+   				// TODO Auto-generated catch block
+   				e.printStackTrace();
+   			}
+   			XSSFWorkbook wb = null;
+   			try {
+   				wb = new XSSFWorkbook(inputStream);
+   			} catch (IOException e) {
+   				// TODO Auto-generated catch block
+   				e.printStackTrace();
+   			}
+   		
+               
+   			//creating a Sheet object to retrieve the object  
+               XSSFSheet sheet = wb.getSheetAt(0);
+               Iterator<Row> rowIterator = sheet.iterator();
+               int totalRows = 0;
+               ArrayList<String> list = new ArrayList<String>();
+               Row rows = rowIterator.next();
+               //skipping first row
+               while (rowIterator.hasNext()) 
+               {
+            	  rows = rowIterator.next();
+               // For each row, iterate through each columns 
+            	   totalRows +=1;
+               Iterator<Cell> cellIterator = rows.cellIterator(); 
+               while (cellIterator.hasNext()) 
+               { Cell cell = cellIterator.next(); 
+               switch (cell.getCellType()) 
+               { case Cell.CELL_TYPE_STRING: 
+               	list.add((String)cell.getStringCellValue()); 
+               	break; 
+               	case Cell.CELL_TYPE_NUMERIC:  
+               		list.add(String.valueOf((long)cell.getNumericCellValue()));
+               		break; 
+        
+               				} } 
+               }
+           
+           
+               
+                   
+                   for (int i = 0,k=0; i < totalRows; i++,k+=10)
+                   {
+                	   int j=0;
+
+                       String sql = "insert into candidate(id,name,fatherName,dob,standard,physics,chemistry,mathematics,computerScience,english) values(?,?,?,?,?,?,?,?,?,?)";
+                       ResultSet rs = null;
+                       boolean em = true;
+                       try (Connection conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASS);
+                               PreparedStatement pst = conn.prepareStatement(sql);) {
+                           for (; j < 5; j++) {
+                               if (j == 0) {
+                                   pst.setLong(j + 1, Long.valueOf(list.get((k+j))));
+                                   System.out.println(list.get((k+j)));
+                               } else {
+
+                                   pst.setString(j+1, String.valueOf(list.get((k+j))));
+                                   System.out.println(list.get((k+j)));
+                               }
+                           }
+                           {
+                               for (;j < 10; j++) {
+                            	   pst.setLong(j + 1, Long.valueOf(list.get((k+j))));
+                            	   System.out.println("Hi"+list.get((k+j)));
+                               }
+                               int row = pst.executeUpdate();
+                               System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database: " + row);
+
+                               if (row != 0) {
+                            
+                                   System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Saved to database..."
+                                           + ConsoleColors.RESET);
+
+                               }
+
+                           }
+                       } catch (SQLException e) {
+                           System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
+                                   + e.getLocalizedMessage() + ConsoleColors.RESET);
+                       } catch (Exception e) {
+                           e.printStackTrace();
+                       }
+                   }
+               	
+               
+           }
+        	
+        }
+    
+            
+            
+
+        
+
+    
     
 
 
