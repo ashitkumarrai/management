@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,7 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import de.vandermeer.asciitable.AsciiTable;
 public class Print {
     
-
+static  String percentage = "PERCENTAGE";
     public static String printpdf(Candidate c, Result r, Long id) {
 
         //printing pdf 
@@ -81,7 +82,8 @@ public class Print {
             c1 = new PdfPCell(new Paragraph("MARKS OBTAINED"));
             c2 = new PdfPCell(new Paragraph("TOTAL MARKS"));
             c3 = new PdfPCell(new Paragraph("STATUS"));
-            c4 = new PdfPCell(new Paragraph("PERCENTAGE"));
+           
+            c4 = new PdfPCell(new Paragraph(percentage));
 
             table3.addCell(c1);
             table3.addCell(c2);
@@ -123,7 +125,7 @@ public class Print {
     }
     
 
-    static void rankList() {
+    static void rankList() throws IOException {
         // printing ranks of all candidates
 
         
@@ -140,14 +142,16 @@ public class Print {
         
 
             rs = pst.executeQuery();
-            List<String[ ] > rankList = new ArrayList<String[ ] >();
+            List<String[ ] > rankList = new ArrayList<>();
           
 
             AsciiTable at = new AsciiTable();
             AsciiTable at2 = new AsciiTable();
           
             at2.addRule();
-            at2.addRow("ID", "NAME", "PERCENTAGE");
+            
+           
+            at2.addRow("ID", "NAME", Print.percentage);
             at2.addRule();
             String rend = "";
             String rend2 = at2.render();
@@ -159,7 +163,7 @@ public class Print {
                 id = rs.getLong("id");
                 name = rs.getString("name");
                 percentage = rs.getFloat("percentage");
-                String row[] = { String.valueOf(id), String.valueOf(name), String.valueOf(percentage) };
+                String []row = { String.valueOf(id), String.valueOf(name), String.valueOf(percentage) };
                 rankList.add(row);
             
 
@@ -173,14 +177,16 @@ public class Print {
             System.out.println(rend+"\n");
   
             System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
-        try{
+    
             Scanner sc5 = new Scanner(System.in);
 
         int printChoice = sc5.nextInt();
         while (printChoice != 0 && printChoice != 1) {
-            System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0|1 to continue"+ConsoleColors.RESET);
+            System.out.println(
+                    ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0|1 to continue" + ConsoleColors.RESET);
             printChoice = sc5.nextInt();
         }
+     
         if (printChoice == 1) {
             System.out.println(Print.printpdf(rankList));
           //pdf file, should be opening in default text editor or web browser
@@ -190,10 +196,7 @@ public class Print {
             if(file.exists()) desktop.open(file);
 
         }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+      
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -218,7 +221,7 @@ public class Print {
             table1.setWidths(colWidth);
             PdfPCell c1 = new PdfPCell(new Paragraph("ID"));
             PdfPCell c2 = new PdfPCell(new Paragraph("NAME"));
-            PdfPCell c3 = new PdfPCell(new Paragraph("PERCENTAGE"));
+            PdfPCell c3 = new PdfPCell(new Paragraph(Print.percentage));
 
             table1.addCell(c1);
             table1.addCell(c2);
@@ -229,7 +232,7 @@ public class Print {
          
             for (int i = 0; i < rankList.size(); i++) {
 
-                String row[] = rankList.get(i);
+                String []row = rankList.get(i);
                 PdfPTable table = new PdfPTable(3);
                 table.setWidths(colWidth);
                 c1 = new PdfPCell(new Paragraph(row[0]));

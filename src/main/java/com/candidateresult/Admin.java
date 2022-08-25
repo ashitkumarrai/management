@@ -28,7 +28,7 @@ public class Admin extends Person {
 
     static String username;
     static String password;
-    public static  Long id;
+     static  Long id;
 
 
     @Override
@@ -52,6 +52,7 @@ public class Admin extends Person {
 
         System.out.println("" + ConsoleColors.CYAN_BOLD + "Enter you password: " + ConsoleColors.RESET);
         password = sc.next();
+        sc.close();
 
         String sql = "select * from admin where username LIKE BINARY ? and password LIKE BINARY ?";
     
@@ -88,8 +89,7 @@ public class Admin extends Person {
 
 
 
-    @SuppressWarnings("null")
-	public static void createResult() {
+	public static void createResult() throws IOException {
     	
     	System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter 0 to input details from command line or enter 1 to read input from excel sheet: ");
     	
@@ -99,6 +99,7 @@ public class Admin extends Person {
              System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1|| to continue");
              ans = Integer.parseInt(sc1.nextLine());
          }
+         sc1.close();
         //creating results of candidates
          Scanner sc = new Scanner(System.in);
          Scanner sc2 = new Scanner(System.in);
@@ -115,7 +116,7 @@ public class Admin extends Person {
 
             String[] details = sc2.nextLine().split(",");
             for (String s : details)
-                s.trim();
+                s=s.trim();
 
             System.out.println(ConsoleColors.BLUE
                     + "enter Marks:\n\n PHYSICS,CHEMISTRY,MATHEMATICS,COMPUTER-SCIENCE,ENGLISH (seperated by comma)"
@@ -123,12 +124,9 @@ public class Admin extends Person {
             String reply2 = sc2.nextLine();
             String[] marks = reply2.split(",");
             for (String s : marks)
-                s.trim();
-        
+                s=s.trim();
 
             String sql = "insert into candidate(id,name,fatherName,dob,standard,physics,chemistry,mathematics,computerScience,english) values(?,?,?,?,?,?,?,?,?,?)";
-            ResultSet rs = null;
-            boolean em = true;
             try (Connection conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASS);
                     PreparedStatement pst = conn.prepareStatement(sql);) {
                 for (int j = 0; j < 5; j++) {
@@ -139,12 +137,12 @@ public class Admin extends Person {
                         pst.setString(j + 1, details[j]);
                     }
                 }
-                {
+                
                     for (int j = 0; j < 5; j++) {
                         pst.setLong(j + 5 + 1, Long.parseLong(marks[j]));
                     }
                     int row = pst.executeUpdate();
-                    System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database: " + row);
+                    System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database " + row);
 
                     if (row != 0) {
                         Candidate c1 = new Candidate(Long.parseLong(details[0]), details[1], details[2], details[3],
@@ -158,65 +156,72 @@ public class Admin extends Person {
                         System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Saving to database..."
                                 + ConsoleColors.RESET);
 
-                    }
+                    
 
                 }
             } catch (SQLException e) {
-                System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
+                System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State:" + e.getSQLState()
                         + e.getLocalizedMessage() + ConsoleColors.RESET);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        sc.close();
+        sc2.close();
     	}
         
     	   if (ans == 1) {
-               System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter excel file path (absolute path): "+ConsoleColors.RESET);
+               System.out.println(
+                       "" + ConsoleColors.GREEN_BOLD + "Enter excel file path (absolute path): " + ConsoleColors.RESET);
+               Scanner sc5 = new Scanner(System.in);
 
-               String filePath = new Scanner(System.in).nextLine();
+               String filePath = sc.nextLine();
+               sc5.close();
             
 
              FileInputStream inputStream = null;
    			try {
    				 inputStream = new FileInputStream(new File(String.format(filePath)));
    			} catch (FileNotFoundException e) {
-   				// TODO Auto-generated catch block
+   				
    				e.printStackTrace();
    			}
    			XSSFWorkbook wb = null;
-   			try {
+   			
    				wb = new XSSFWorkbook(inputStream);
-   			} catch (IOException e) {
-   				// TODO Auto-generated catch block
-   				e.printStackTrace();
-   			}
+   			
+   				
+   			
    		
                
    			//creating a Sheet object to retrieve the object  
                XSSFSheet sheet = wb.getSheetAt(0);
                Iterator<Row> rowIterator = sheet.iterator();
                int totalRows = 0;
-               ArrayList<String> list = new ArrayList<String>();
+               ArrayList<String> list = new ArrayList<>();
                Row rows = rowIterator.next();
                //skipping first row
                while (rowIterator.hasNext()) 
                {
-            	  rows = rowIterator.next();
-               // For each row, iterate through each columns 
-            	   totalRows +=1;
-               Iterator<Cell> cellIterator = rows.cellIterator(); 
-               while (cellIterator.hasNext()) 
-               { Cell cell = cellIterator.next(); 
-               switch (cell.getCellType()) 
-               { case Cell.CELL_TYPE_STRING: 
-               	list.add((String)cell.getStringCellValue()); 
-               	break; 
-               	case Cell.CELL_TYPE_NUMERIC:  
-               		list.add(String.valueOf((long)cell.getNumericCellValue()));
-               		break; 
-        
-               				} } 
+                   rows = rowIterator.next();
+                   // For each row, iterate through each columns 
+                   totalRows += 1;
+                   Iterator<Cell> cellIterator = rows.cellIterator();
+                   while (cellIterator.hasNext()) {
+                       Cell cell = cellIterator.next();
+                       switch (cell.getCellType()) {
+                           case Cell.CELL_TYPE_STRING:
+                               list.add(cell.getStringCellValue());
+                               break;
+                           case Cell.CELL_TYPE_NUMERIC:
+                               list.add(String.valueOf((long) cell.getNumericCellValue()));
+                               break;
+                               default:
+
+                       }
+                   }
                }
+               wb.close();
            
            
                
@@ -226,8 +231,7 @@ public class Admin extends Person {
                 	   int j=0;
 
                        String sql = "insert into candidate(id,name,fatherName,dob,standard,physics,chemistry,mathematics,computerScience,english) values(?,?,?,?,?,?,?,?,?,?)";
-                       ResultSet rs = null;
-                       boolean em = true;
+                    
                        try (Connection conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASS);
                                PreparedStatement pst = conn.prepareStatement(sql);) {
                            for (; j < 5; j++) {
@@ -240,7 +244,7 @@ public class Admin extends Person {
                                    System.out.println(list.get((k+j)));
                                }
                            }
-                           {
+                           
                                for (;j < 10; j++) {
                             	   pst.setLong(j + 1, Long.valueOf(list.get((k+j))));
                             	   System.out.println("Hi"+list.get((k+j)));
@@ -255,7 +259,7 @@ public class Admin extends Person {
 
                                }
 
-                           }
+                           
                        } catch (SQLException e) {
                            System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
                                    + e.getLocalizedMessage() + ConsoleColors.RESET);
@@ -286,6 +290,7 @@ public class Admin extends Person {
         System.out.println(ConsoleColors.BLUE + " ENTER ROOTPIN:  " + ConsoleColors.RESET);
         Scanner sc = new Scanner(System.in);
         int pin = sc.nextInt();
+        sc.close();
 
         
         
@@ -326,6 +331,7 @@ public class Admin extends Person {
                     break;
                 }
             }
+            sc1.close();
 
             //INSERT INTO database
 
