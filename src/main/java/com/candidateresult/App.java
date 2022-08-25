@@ -42,6 +42,7 @@ public class App {
     static Result r1;
     static String line = "_______________________________________________________________";
     static String decarativeLineBar = "                       |                          | ";
+    static Scanner sc = new Scanner(System.in);
 
     static int welcome() {
         if (count == 0) {
@@ -78,7 +79,7 @@ public class App {
         System.out.println("                       |___ __ __ __ __ __ __ ____|");
         System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
                 + ConsoleColors.RESET);
-        Scanner sc = new Scanner(System.in);
+        
         
         int answer = Integer.parseInt(sc.nextLine());
 
@@ -87,23 +88,24 @@ public class App {
             answer = new Scanner(System.in).nextInt();
         }
     
-
-        return answer;
+        
+         return answer;
+        
     }
-
+      
     static void viewResult() {
         System.out.println(ConsoleColors.PURPLE_BOLD + "Enter Your RollNumber: " + ConsoleColors.RESET);
 
         String sql = "select * from candidate where id=?";
         ResultSet rs = null;
         boolean empty = true;
-        Scanner sc1 = new Scanner(System.in);
+        
         Long tmp=0l;
         
-        if(sc1.hasNextLine())
-        {
-             tmp = sc1.nextLong();
-        }
+        
+        
+             tmp = Long.parseLong(sc.nextLine());
+        
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 PreparedStatement pst = conn.prepareStatement(sql);) {
            
@@ -149,15 +151,15 @@ public class App {
             System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter 0 to exit OR  1 to print Result to pdf:  "
                     + ConsoleColors.RESET);
             try {
-                Scanner sc5 = new Scanner(System.in);
+                
 
-                int printChoice = sc5.nextInt();
+                int printChoice = Integer.parseInt(sc.nextLine());
                 
             
                 while (printChoice != 0 && printChoice != 1) {
                     System.out.println(
                             ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0|1 to continue" + ConsoleColors.RESET);
-                    printChoice = sc5.nextInt();
+                    printChoice = Integer.parseInt(sc.nextLine());
                 }
           
                 if (printChoice == 1) {
@@ -199,11 +201,11 @@ public class App {
             System.out
                     .println(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
                             + ConsoleColors.RESET);
-            Scanner sc1 = new Scanner(System.in);
-            int answer1 = Integer.parseInt(sc1.nextLine());
+            
+            int answer1 = Integer.parseInt(sc.nextLine());
             while (answer1 != 0 && answer1 != 1 && answer1 != 2 && answer1 != 3) {
                 System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1||2||3 to continue");
-                answer1 = Integer.parseInt(sc1.nextLine());
+                answer1 = Integer.parseInt(sc.nextLine());
             }
            
             if (answer1 == 0) {
@@ -261,7 +263,7 @@ public class App {
             adminLogin(args);
         }
         if (choice == 3) {
-            //new admin register
+            
             System.out.println(Admin.register());
             System.out.println(line);
 

@@ -46,13 +46,13 @@ public class Admin extends Person {
 
     public static String login() {
         //for login admin
-        Scanner sc = new Scanner(System.in);
+        
         System.out.println("" + ConsoleColors.CYAN_BOLD + "Enter you username: " + ConsoleColors.RESET);
-        username = sc.next();
+        username =App.sc.nextLine();
 
         System.out.println("" + ConsoleColors.CYAN_BOLD + "Enter you password: " + ConsoleColors.RESET);
-        password = sc.next();
-        sc.close();
+        password = App.sc.nextLine();
+        
 
         String sql = "select * from admin where username LIKE BINARY ? and password LIKE BINARY ?";
     
@@ -93,20 +93,19 @@ public class Admin extends Person {
     	
     	System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter 0 to input details from command line or enter 1 to read input from excel sheet: ");
     	
-    	 Scanner sc1 = new Scanner(System.in);
-         int ans = Integer.parseInt(sc1.nextLine());
+    	 
+         int ans = Integer.parseInt(App.sc.nextLine());
          while (ans != 0 && ans != 1) {
              System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1|| to continue");
-             ans = Integer.parseInt(sc1.nextLine());
+             ans = Integer.parseInt(App.sc.nextLine());
          }
-         sc1.close();
+       
         //creating results of candidates
-         Scanner sc = new Scanner(System.in);
-         Scanner sc2 = new Scanner(System.in);
+         
     	if(ans ==0) {
         System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter total candidates numbers to createResult: ");
     
-        int loop = sc.nextInt();
+        int loop = Integer.parseInt(App.sc.nextLine());
         for (int i = 0; i < loop; i++) {
 
             System.out
@@ -114,14 +113,14 @@ public class Admin extends Person {
                             + "enter id,name, fatherName,dob(dd-mm-yyyy),standard (seperated by comma)"
                             + ConsoleColors.RESET);
 
-            String[] details = sc2.nextLine().split(",");
+            String[] details = App.sc.nextLine().split(",");
             for (String s : details)
                 s=s.trim();
 
             System.out.println(ConsoleColors.BLUE
                     + "enter Marks:\n\n PHYSICS,CHEMISTRY,MATHEMATICS,COMPUTER-SCIENCE,ENGLISH (seperated by comma)"
                     + ConsoleColors.RESET);
-            String reply2 = sc2.nextLine();
+            String reply2 = App.sc.nextLine();
             String[] marks = reply2.split(",");
             for (String s : marks)
                 s=s.trim();
@@ -166,8 +165,7 @@ public class Admin extends Person {
                 e.printStackTrace();
             }
         }
-        sc.close();
-        sc2.close();
+      
     	}
         
     	   if (ans == 1) {
@@ -175,8 +173,8 @@ public class Admin extends Person {
                        "" + ConsoleColors.GREEN_BOLD + "Enter excel file path (absolute path): " + ConsoleColors.RESET);
                Scanner sc5 = new Scanner(System.in);
 
-               String filePath = sc.nextLine();
-               sc5.close();
+               String filePath = App.sc.nextLine();
+             
             
 
              FileInputStream inputStream = null;
@@ -288,21 +286,20 @@ public class Admin extends Person {
 
     public static String register() {
         System.out.println(ConsoleColors.BLUE + " ENTER ROOTPIN:  " + ConsoleColors.RESET);
-        Scanner sc = new Scanner(System.in);
-        int pin = sc.nextInt();
-        sc.close();
-
+       
+        int pin = Integer.parseInt(App.sc.nextLine());
+       
         
         
         if (pin == 20222022) {
 
-            Scanner sc1 = new Scanner(System.in);
+            
             System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "Enter your Admin Registration details..." + ConsoleColors.RESET);
             System.out.println("" + ConsoleColors.CYAN_BOLD + "create you username(username should have one word atleast 3 letters only alpha-numeric characters and undesrcore '_' is allowed, no any space is allowed): " + ConsoleColors.RESET);
             
             while (true) {
 
-                username = sc1.next();
+                username = App.sc.nextLine();
                 if (!username.matches("[\\w]{3,}")) {
                     System.out.println(
                             "" + ConsoleColors.RED_BOLD_BRIGHT
@@ -320,7 +317,7 @@ public class Admin extends Person {
          
             while (true) {
 
-                password = sc1.next();
+                password = App.sc.nextLine();
                 if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
                     System.out.println(
                             "" + ConsoleColors.RED_BOLD_BRIGHT
@@ -331,7 +328,7 @@ public class Admin extends Person {
                     break;
                 }
             }
-            sc1.close();
+           
 
             //INSERT INTO database
 

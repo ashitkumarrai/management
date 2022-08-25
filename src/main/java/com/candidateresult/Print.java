@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -178,13 +178,13 @@ static  String percentage = "PERCENTAGE";
   
             System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
     
-            Scanner sc5 = new Scanner(System.in);
+           
 
-        int printChoice = sc5.nextInt();
+        int printChoice = Integer.parseInt(App.sc.nextLine());
         while (printChoice != 0 && printChoice != 1) {
             System.out.println(
                     ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0|1 to continue" + ConsoleColors.RESET);
-            printChoice = sc5.nextInt();
+            printChoice = Integer.parseInt(App.sc.nextLine());
         }
      
         if (printChoice == 1) {
