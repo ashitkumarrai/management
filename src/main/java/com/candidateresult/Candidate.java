@@ -115,7 +115,7 @@ public class Candidate extends Person{
  
     @Override
     public String showMyDetail(Long id) {
-        // TODO Auto-generated method stub
+       
      
         return this.toString();
     }

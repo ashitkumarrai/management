@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
+
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -171,7 +171,7 @@ public class Admin extends Person {
     	   if (ans == 1) {
                System.out.println(
                        "" + ConsoleColors.GREEN_BOLD + "Enter excel file path (absolute path): " + ConsoleColors.RESET);
-               Scanner sc5 = new Scanner(System.in);
+               
 
                String filePath = App.sc.nextLine();
              
