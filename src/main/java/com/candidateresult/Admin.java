@@ -20,10 +20,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import lombok.extern.slf4j.Slf4j;
 
 
 
 
+@Slf4j
 public class Admin extends Person {
 
     static String username;
@@ -47,10 +49,10 @@ public class Admin extends Person {
     public static String login() {
         //for login admin
         
-        System.out.println("" + ConsoleColors.CYAN_BOLD + "Enter you username: " + ConsoleColors.RESET);
+        log.info("" + ConsoleColors.CYAN_BOLD + "Enter you username: " + ConsoleColors.RESET);
         username =App.sc.nextLine();
 
-        System.out.println("" + ConsoleColors.CYAN_BOLD + "Enter you password: " + ConsoleColors.RESET);
+        log.info("" + ConsoleColors.CYAN_BOLD + "Enter you password: " + ConsoleColors.RESET);
         password = App.sc.nextLine();
         
 
@@ -79,7 +81,7 @@ public class Admin extends Person {
 
         }
         if (em) {
-            System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "wrong credential try again .....");
+            log.info(ConsoleColors.RED_BOLD_BRIGHT + "wrong credential try again .....");
         }
         return null;
 
@@ -91,25 +93,24 @@ public class Admin extends Person {
 
 	public static void createResult() throws IOException {
     	
-    	System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter 0 to input details from command line or enter 1 to read input from excel sheet: ");
+    	log.info("" + ConsoleColors.GREEN_BOLD + "Enter 0 to input details from command line or enter 1 to read input from excel sheet: ");
     	
     	 
          int ans = Integer.parseInt(App.sc.nextLine());
          while (ans != 0 && ans != 1) {
-             System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1|| to continue");
+             log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1|| to continue");
              ans = Integer.parseInt(App.sc.nextLine());
          }
        
         //creating results of candidates
          
     	if(ans ==0) {
-        System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter total candidates numbers to createResult: ");
+        log.info("" + ConsoleColors.GREEN_BOLD + "Enter total candidates numbers to createResult: ");
     
         int loop = Integer.parseInt(App.sc.nextLine());
         for (int i = 0; i < loop; i++) {
 
-            System.out
-                    .println(ConsoleColors.BLUE
+            log.info(ConsoleColors.BLUE
                             + "enter id,name, fatherName,dob(dd-mm-yyyy),standard (seperated by comma)"
                             + ConsoleColors.RESET);
 
@@ -117,7 +118,7 @@ public class Admin extends Person {
             for (String s : details)
                 s=s.trim();
 
-            System.out.println(ConsoleColors.BLUE
+            log.info(ConsoleColors.BLUE
                     + "enter Marks:\n\n PHYSICS,CHEMISTRY,MATHEMATICS,COMPUTER-SCIENCE,ENGLISH (seperated by comma)"
                     + ConsoleColors.RESET);
             String reply2 = App.sc.nextLine();
@@ -141,25 +142,25 @@ public class Admin extends Person {
                         pst.setLong(j + 5 + 1, Long.parseLong(marks[j]));
                     }
                     int row = pst.executeUpdate();
-                    System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database " + row);
+                    log.info("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database " + row);
 
                     if (row != 0) {
                         Candidate c1 = new Candidate(Long.parseLong(details[0]), details[1], details[2], details[3],
                                 details[4]);
                         Result r1 = new Result(Float.parseFloat(marks[0]), Float.parseFloat(marks[1]),
                                 Float.parseFloat(marks[2]), Float.parseFloat(marks[3]), Float.parseFloat(marks[4]));
-                        System.out.println("_______________________________________________________________");
+                        log.info("_______________________________________________________________");
 
-                        System.out.println(c1.showMyDetail(Long.parseLong(details[0])));
-                        System.out.println(r1);
-                        System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Saving to database..."
+                        log.info(c1.showMyDetail(Long.parseLong(details[0])));
+                        log.info(r1.toString());
+                        log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "Saving to database..."
                                 + ConsoleColors.RESET);
 
                     
 
                 }
             } catch (SQLException e) {
-                System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State:" + e.getSQLState()
+                log.info("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State:" + e.getSQLState()
                         + e.getLocalizedMessage() + ConsoleColors.RESET);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -169,7 +170,7 @@ public class Admin extends Person {
     	}
         
     	   if (ans == 1) {
-               System.out.println(
+               log.info(
                        "" + ConsoleColors.GREEN_BOLD + "Enter excel file path (absolute path): " + ConsoleColors.RESET);
                
 
@@ -235,31 +236,31 @@ public class Admin extends Person {
                            for (; j < 5; j++) {
                                if (j == 0) {
                                    pst.setLong(j + 1, Long.valueOf(list.get((k+j))));
-                                   System.out.println(list.get((k+j)));
+                                   log.info(list.get((k+j)));
                                } else {
 
                                    pst.setString(j+1, String.valueOf(list.get((k+j))));
-                                   System.out.println(list.get((k+j)));
+                                   log.info(list.get((k+j)));
                                }
                            }
                            
                                for (;j < 10; j++) {
                             	   pst.setLong(j + 1, Long.valueOf(list.get((k+j))));
-                            	   System.out.println("Hi"+list.get((k+j)));
+                            	   log.info("Hi"+list.get((k+j)));
                                }
                                int row = pst.executeUpdate();
-                               System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database: " + row);
+                               log.info("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database: " + row);
 
                                if (row != 0) {
                             
-                                   System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Saved to database..."
+                                   log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "Saved to database..."
                                            + ConsoleColors.RESET);
 
                                }
 
                            
                        } catch (SQLException e) {
-                           System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
+                           log.info("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
                                    + e.getLocalizedMessage() + ConsoleColors.RESET);
                        } catch (Exception e) {
                            e.printStackTrace();
@@ -285,7 +286,7 @@ public class Admin extends Person {
 
 
     public static String register() {
-        System.out.println(ConsoleColors.BLUE + " ENTER ROOTPIN:  " + ConsoleColors.RESET);
+        log.info(ConsoleColors.BLUE + " ENTER ROOTPIN:  " + ConsoleColors.RESET);
        
         int pin = Integer.parseInt(App.sc.nextLine());
        
@@ -294,18 +295,18 @@ public class Admin extends Person {
         if (pin == 20222022) {
 
             
-            System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "Enter your Admin Registration details..." + ConsoleColors.RESET);
-            System.out.println("" + ConsoleColors.CYAN_BOLD + "create you username(username should have one word atleast 3 letters only alpha-numeric characters and undesrcore '_' is allowed, no any space is allowed): " + ConsoleColors.RESET);
+            log.info("" + ConsoleColors.GREEN_BOLD_BRIGHT + "Enter your Admin Registration details..." + ConsoleColors.RESET);
+            log.info("" + ConsoleColors.CYAN_BOLD + "create you username(username should have one word atleast 3 letters only alpha-numeric characters and undesrcore '_' is allowed, no any space is allowed): " + ConsoleColors.RESET);
             
             while (true) {
 
                 username = App.sc.nextLine();
                 if (!username.matches("[\\w]{3,}")) {
-                    System.out.println(
+                    log.info(
                             "" + ConsoleColors.RED_BOLD_BRIGHT
                                     + "username should have one word atleast 3 letters only alpha-numeric characters and undesrcore '_' is allowed, no any space is allowed, try Again..."
                                     + ConsoleColors.RESET);
-                                    System.out.println(username);
+                                    log.info(username);
 
                 } else {
                     break;
@@ -313,13 +314,13 @@ public class Admin extends Person {
             }
             
     
-            System.out.println("" + ConsoleColors.CYAN_BOLD + "create your password:(Minimum eight characters, at least one letter and one number: )" + ConsoleColors.RESET);
+            log.info("" + ConsoleColors.CYAN_BOLD + "create your password:(Minimum eight characters, at least one letter and one number: )" + ConsoleColors.RESET);
          
             while (true) {
 
                 password = App.sc.nextLine();
                 if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
-                    System.out.println(
+                    log.info(
                             "" + ConsoleColors.RED_BOLD_BRIGHT
                                     + "password should have Minimum eight characters, at least one letter and one number, try Again..."
                                     + ConsoleColors.RESET);
@@ -345,7 +346,7 @@ public class Admin extends Person {
                         pst.setString(2, password);
                         pst2.setString(1, username);
                     int row = pst.executeUpdate();
-                    System.out.println("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database: " + row);
+                    log.info("" + ConsoleColors.GREEN_BOLD_BRIGHT + "rows affected in database: " + row);
 
                     if (row != 0) {
                         
@@ -358,18 +359,18 @@ public class Admin extends Person {
                             username = rs2.getString("userName");
 
                         }
-                        System.out.println(admin.showMyDetail(id));
+                        log.info(admin.showMyDetail(id));
                        
-                        System.out.println("_______________________________________________________________");
+                        log.info("_______________________________________________________________");
                       
-                        System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Saving to database..."
+                        log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "Saving to database..."
                                 + ConsoleColors.RESET);
 
                     }
 
                 
             } catch (SQLException e) {
-                System.out.println("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
+                log.info("" + ConsoleColors.RED_BOLD_BRIGHT + "SQL State: " + e.getSQLState()
                         + e.getLocalizedMessage() + ConsoleColors.RESET);
             } catch (Exception e) {
                 e.printStackTrace();

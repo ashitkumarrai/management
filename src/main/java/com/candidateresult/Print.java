@@ -1,6 +1,7 @@
 package com.candidateresult;
 
 import java.awt.Desktop;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +23,14 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import de.vandermeer.asciitable.AsciiTable;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Print {
+	
+	private Print() {
+		
+	}
     
 static  String percentage = "PERCENTAGE";
     public static String printpdf(Candidate c, Result r, Long id) {
@@ -155,9 +163,9 @@ static  String percentage = "PERCENTAGE";
             at2.addRule();
             String rend = "";
             String rend2 = at2.render();
-            System.out.println(""+ConsoleColors.GREEN_BOLD_BRIGHT);
-            System.out.println(rend2);
-            System.out.println(""+ConsoleColors.CYAN_BOLD);
+           
+          
+          
             while (rs.next()) {
 
                 id = rs.getLong("id");
@@ -174,21 +182,21 @@ static  String percentage = "PERCENTAGE";
 
             }
             rend = at.render();
-            System.out.println(rend+"\n");
+            log.info("\n"+ConsoleColors.GREEN_BOLD_BRIGHT+rend2+"\n"+ConsoleColors.CYAN_BOLD+rend+"\n");
   
-            System.out.println(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
+            log.info(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
     
            
 
         int printChoice = Integer.parseInt(App.sc.nextLine());
         while (printChoice != 0 && printChoice != 1) {
-            System.out.println(
+            log.info(
                     ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0|1 to continue" + ConsoleColors.RESET);
             printChoice = Integer.parseInt(App.sc.nextLine());
         }
      
         if (printChoice == 1) {
-            System.out.println(Print.printpdf(rankList));
+            log.info(Print.printpdf(rankList));
           //pdf file, should be opening in default text editor or web browser
             File file = new File(".\\rankList.pdf");
             
