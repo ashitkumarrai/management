@@ -10,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import org.apache.log4j.xml.DOMConfigurator;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -65,7 +63,7 @@ public class App {
                 + ConsoleColors.GREEN_BOLD);
         log.info("                        ___ __ __ __ __ __ ____ __ ");
         log.info(decarativeLineBar);
-        log.info("                       |   0: Exit                |");
+       
         log.info(decarativeLineBar);
         log.info("                       |   1: view result         |");
         log.info(decarativeLineBar);
@@ -74,6 +72,7 @@ public class App {
         log.info("                       |   3: new admin register  |");
         log.info(decarativeLineBar);
         log.info("                       |   4: view Rank List      |");
+        log.info("                       |   5: Exit                |");
         log.info("                       |___ __ __ __ __ __ __ ____|");
         log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
                 + ConsoleColors.RESET);
@@ -81,8 +80,8 @@ public class App {
         
         int answer = Integer.parseInt(sc.nextLine());
 
-        while (answer != 0 && answer != 1 && answer != 2 && answer != 3 && answer != 4) {
-            log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0 || 1 || 2 || 3 || 4 to continue");
+        while (answer != 5 && answer != 1 && answer != 2 && answer != 3 && answer != 4) {
+            log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 5 || 1 || 2 || 3 || 4 to continue");
             answer = new Scanner(System.in).nextInt();
         }
     
@@ -133,7 +132,10 @@ public class App {
             
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            
+            
+                log.info("try  once again....." + ConsoleColors.RESET);
+               App.viewResult();
 
         }
 
@@ -171,7 +173,9 @@ public class App {
 
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                
+                log.info("try  once again....." + ConsoleColors.RESET);
+                App.viewResult();
             }
             
 
@@ -187,25 +191,26 @@ public class App {
         if (message != null) {
            log.info("" + ConsoleColors.GREEN_BOLD + "                        __ __ __ __ __ __ ____ __ ");
             log.info(decarativeLineBar);
-            log.info("                       |   0: Logout              | ");
+            
             log.info(decarativeLineBar);
             log.info("                       |   1: Create Results      | ");
             log.info(decarativeLineBar);
             log.info("                       |   2: view Pin            | ");
             log.info(decarativeLineBar);
             log.info("                       |   3: showMyDetail        | ");
+            log.info("                       |   4: Logout              | ");
             log.info("                       |___ __ __ __ __ __ __ ____| ");
             log.info(
                     ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
                             + ConsoleColors.RESET);
             
             int answer1 = Integer.parseInt(sc.nextLine());
-            while (answer1 != 0 && answer1 != 1 && answer1 != 2 && answer1 != 3) {
+            while (answer1 != 4 && answer1 != 1 && answer1 != 2 && answer1 != 3) {
                 log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1||2||3 to continue");
                 answer1 = Integer.parseInt(sc.nextLine());
             }
            
-            if (answer1 == 0) {
+            if (answer1 == 4) {
                 main(args);
             }
 
@@ -215,7 +220,9 @@ public class App {
                     Admin.createResult();
                 } catch (IOException e) {
                    
-                    e.printStackTrace();
+                    
+                    log.info("try  once again....." + ConsoleColors.RESET);
+                    App.adminLogin(args);
                 }
                 log.info(line);
 
@@ -248,9 +255,9 @@ public class App {
         
 
         int choice = welcome();
-        if (choice == 0) {
+        if (choice == 5) {
             // 0 means termination is successful
-            System.exit(choice);
+            System.exit(0);
         }
         if (choice == 1) {
           
@@ -272,7 +279,9 @@ public class App {
                 Print.rankList();
             } catch (IOException e) {
                
-                e.printStackTrace();
+                
+                log.info("try  once again....." + ConsoleColors.RESET);
+                App.main(args);
             }
      
         }
