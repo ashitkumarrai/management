@@ -64,7 +64,7 @@ public class App {
         log.info("                        ___ __ __ __ __ __ ____ __ ");
         log.info(decarativeLineBar);
        
-        log.info(decarativeLineBar);
+        
         log.info("                       |   1: view result         |");
         log.info(decarativeLineBar);
         log.info("                       |   2: Admin Login         | ");
@@ -72,6 +72,7 @@ public class App {
         log.info("                       |   3: new admin register  |");
         log.info(decarativeLineBar);
         log.info("                       |   4: view Rank List      |");
+        log.info(decarativeLineBar);
         log.info("                       |   5: Exit                |");
         log.info("                       |___ __ __ __ __ __ __ ____|");
         log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "\n\n                      please input your choice"
@@ -198,6 +199,7 @@ public class App {
             log.info("                       |   2: view Pin            | ");
             log.info(decarativeLineBar);
             log.info("                       |   3: showMyDetail        | ");
+            log.info(decarativeLineBar);
             log.info("                       |   4: Logout              | ");
             log.info("                       |___ __ __ __ __ __ __ ____| ");
             log.info(
