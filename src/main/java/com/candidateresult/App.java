@@ -82,7 +82,7 @@ public class App {
         int answer = Integer.parseInt(sc.nextLine());
 
         while (answer != 5 && answer != 1 && answer != 2 && answer != 3 && answer != 4) {
-            log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 5 || 1 || 2 || 3 || 4 to continue");
+            log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input  1 || 2 || 3 || 4 ||5 to continue");
             answer = new Scanner(System.in).nextInt();
         }
     
@@ -208,7 +208,7 @@ public class App {
             
             int answer1 = Integer.parseInt(sc.nextLine());
             while (answer1 != 4 && answer1 != 1 && answer1 != 2 && answer1 != 3) {
-                log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 0||1||2||3 to continue");
+                log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input 1||2||3||4 to continue");
                 answer1 = Integer.parseInt(sc.nextLine());
             }
            
