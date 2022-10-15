@@ -2,10 +2,10 @@ package com.candidateresult;
 
 import de.vandermeer.asciitable.AsciiTable;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+
 
 @Data
-@Slf4j
+
 public class Result {
     
     private Float physics=0f;

@@ -3,9 +3,9 @@ package com.candidateresult;
 import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
+
 @Setter
 @ToString
 @EqualsAndHashCode

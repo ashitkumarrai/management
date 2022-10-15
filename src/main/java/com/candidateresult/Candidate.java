@@ -5,9 +5,9 @@ import de.vandermeer.asciitable.AsciiTable;
 import lombok.AllArgsConstructor;
 
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
+
 @Setter
 @AllArgsConstructor
 public class Candidate extends Person{

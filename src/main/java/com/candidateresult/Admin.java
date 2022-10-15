@@ -1,11 +1,20 @@
 package com.candidateresult;
 
 
-import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,8 +23,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -23,6 +32,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import lombok.extern.slf4j.Slf4j;
+import jline.*;
+import jline.console.ConsoleReader;
 
 
 @Slf4j
@@ -49,12 +60,27 @@ public class Admin extends Person {
     public static String login() {
         //for login admin
         
-        log.info("" + ConsoleColors.CYAN_BOLD + "Enter you username: " + ConsoleColors.RESET);
+        log.info("" + ConsoleColors.CYAN_BOLD + "Enter your username: " + ConsoleColors.RESET);
         username =App.sc.nextLine();
 
-        log.info("" + ConsoleColors.CYAN_BOLD + "Enter you password: " + ConsoleColors.RESET);
-        password = App.sc.nextLine();
+        log.info("" + ConsoleColors.CYAN_BOLD + "Enter your password: " + ConsoleColors.RESET);
+        // 1.password = App.sc.nextLine();
         
+         Console cnsl = System.console(); 
+         
+       // char[] ch = cnsl.readPassword( "Enter password : ");
+       //password = String.valueOf(ch);
+        
+         
+        
+        //*********************************************************
+         password = PasswordField.readPassword("Enter password: ");
+        
+        
+        
+        
+        
+      
 
         String sql = "select * from admin where username LIKE BINARY ? and password LIKE BINARY ?";
     
@@ -92,7 +118,18 @@ public class Admin extends Person {
     
 
 
-
+    private static Point getCenterPosition(int height, int width)
+    //for center position of frame(file chooser dialog window
+    {
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        int xCenter = (screen.width / 2) - (width / 2); // Center
+        int yCenter = (screen.height / 2) - (height / 2); // Center
+        Point res = new Point(xCenter, yCenter);
+        return res;
+    }
+  
+        
+    
 
 	public static void createResult() throws IOException {
     	
@@ -181,21 +218,74 @@ public class Admin extends Person {
         
     	   if (ans == 1) {
              log.info("file chooser dialog box in opened...");
+             //opening file chooser dialog window
+             try
+             {
+                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());    
+             }
+             catch (Exception e)
+             {
+                 
+             }
+              Frame frame = new JFrame();
+             
+             Point centerPoint = getCenterPosition(frame.getWidth(), frame.getHeight());
+             FileDialog fd = new FileDialog(frame, "choose a excel file", FileDialog.LOAD);
+             frame.setLocation(centerPoint);
+             
+            
+             frame.setAlwaysOnTop(true);
+             frame.setVisible(false);
+             
+             //fd.toFront();
+            
+             fd.setDirectory(System.getProperty("user.dir"));
+            
+               
+             
+     
+             
+             fd.setFilenameFilter((File dir, String name) -> name.endsWith(".xlsx"));
+             fd.setFile("*.xlsx");
+
+             
+             
+             fd.setVisible(true);
+              String filename= fd.getFile();
+              FileInputStream inputStream = null;
+            
+             if (filename == null)
+              {log.info(ConsoleColors.RED_BOLD_BRIGHT+"You closed the file chooser dialog box\n try again,");
+              
+              log.info(""+ConsoleColors.RESET);
+              Admin.createResult();
+              try {
+                App.adminLogin(null);
+            } catch (SQLException e) {
+               
+                e.printStackTrace();
+            }
+              }
+             else
+               {
+               
+               File selectedFile = fd.getFiles()[0];
     	       
-    	       JFileChooser fileChooser = new JFileChooser();
-    	    
-    	       fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-    	       fileChooser.setBackground(Color.black);
-    	       fileChooser.setForeground(Color.white);
-    	       
-    	       int result = fileChooser.showOpenDialog(null);
-    	      
-    	     
-    	       FileInputStream inputStream = null;
-    	       try {
-    	       if (result == JFileChooser.APPROVE_OPTION) {
-    	           File selectedFile = fileChooser.getSelectedFile();
-    	           
+           /*
+            * JFileChooser fileChooser = new JFileChooser();
+            * 
+            * fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            * fileChooser.setBackground(Color.black);
+            * fileChooser.setForeground(Color.white);
+            * 
+            * int result = fileChooser.showOpenDialog(null);
+            * 
+            * 
+            * FileInputStream inputStream = null;
+            * try {
+            * if (result == JFileChooser.APPROVE_OPTION) {
+            * File selectedFile = fileChooser.getSelectedFile();
+            */
     	       
     	       
     	       
@@ -208,7 +298,7 @@ public class Admin extends Person {
                //String filePath = App.sc.nextLine();
              
             
-
+              
              
    			try {
    				 inputStream = new FileInputStream(selectedFile);
@@ -218,13 +308,8 @@ public class Admin extends Person {
                 
                 Admin.createResult();
                 
-   			}}}
-    	       catch(Exception e) {
-    	           log.info(ConsoleColors.RED+ e.getLocalizedMessage());
-    	           log.info("try  once again....."+ConsoleColors.RESET);
-    	           Admin.createResult();
-    	           
-    	       }
+   			}}
+    	      
    			XSSFWorkbook wb = null;
    			int totalRows = 0;
    			ArrayList<String> list = new ArrayList<>();
@@ -448,5 +533,45 @@ public class Admin extends Person {
 
         
         
-    }
-}
+    }}
+    class PasswordField {
+
+        public static String readPassword (String prompt) {
+           EraserThread et = new EraserThread(prompt);
+           Thread mask = new Thread(et);
+           mask.start();
+
+           BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+           String password = "";
+
+           try {
+               password = in.readLine();
+           } catch (IOException ioe) {
+               ioe.printStackTrace();
+           }
+           et.stopMasking();
+           return password;
+        }
+     }   
+
+     class EraserThread implements Runnable {
+        private boolean stop;
+
+        public EraserThread(String prompt) {
+            System.out.print(prompt);
+        }public void run () {
+            while (!stop){
+                System.out.print("\010*");
+                try {
+                   Thread.currentThread().sleep(1);
+                } catch(InterruptedException ie) {
+                   ie.printStackTrace();
+                }
+             }
+          }
+
+          public void stopMasking() {
+             this.stop = true;
+          }
+     }
+
