@@ -466,7 +466,7 @@ public class Admin extends Person {
        
         
         
-        if (pin == 20222022) {
+        if (pin == App.ROOTPIN) {
 
             
             log.info("" + ConsoleColors.GREEN_BOLD_BRIGHT + "Enter your Admin Registration details..." + ConsoleColors.RESET);

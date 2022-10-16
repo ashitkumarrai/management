@@ -253,7 +253,7 @@ public class App {
             if (answer1 == 2) {
                 log.info("            " + ConsoleColors.BLUE_UNDERLINED
                         + "(ROOTPIN is secret & read only by admin level\tfor changing the ROOTPIN contact s/w developer)\n\t\tCurrent ROOTPIN : "
-                        + "20222022" + ConsoleColors.RESET);
+                        + App.ROOTPIN + ConsoleColors.RESET);
                         log.info(line);
 
             }
