@@ -6,21 +6,18 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
 import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
@@ -32,8 +29,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import lombok.extern.slf4j.Slf4j;
-import jline.*;
-import jline.console.ConsoleReader;
 
 
 @Slf4j
@@ -63,10 +58,11 @@ public class Admin extends Person {
         log.info("" + ConsoleColors.CYAN_BOLD + "Enter your username: " + ConsoleColors.RESET);
         username =App.sc.nextLine();
 
-        log.info("" + ConsoleColors.CYAN_BOLD + "Enter your password: " + ConsoleColors.RESET);
-        // 1.password = App.sc.nextLine();
         
-         Console cnsl = System.console(); 
+        //password = App.sc.nextLine();
+       
+         //String cnsl = System.console().readLine(); 
+         
          
        // char[] ch = cnsl.readPassword( "Enter password : ");
        //password = String.valueOf(ch);
@@ -74,9 +70,30 @@ public class Admin extends Person {
          
         
         //*********************************************************
-         password = PasswordField.readPassword("Enter password: ");
         
+        char passwordArr[] = null;
+        Console cnsl;
+   
+        if ((cnsl = System.console()) != null &&
+            (passwordArr = cnsl.readPassword("%s",  ""+ ConsoleColors.CYAN_BOLD + "Enter your password: " + ConsoleColors.RESET)) != null) {
+          
+            
+        }
+        for (int i = 0; i < passwordArr.length; i++) {
+            System.out.print("*");
+        }
+        log.info("");
+     
+            
+       
+      
+           
+            
+      
         
+        password = String.valueOf(passwordArr);
+        //Base64 encoding to match with database.
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         
         
         
@@ -86,6 +103,7 @@ public class Admin extends Person {
     
         ResultSet rs = null;
         boolean em = true;
+        password = String.valueOf(password);
         try (Connection conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASS);
                 PreparedStatement pst = conn.prepareStatement(sql);) {
 
@@ -111,6 +129,7 @@ public class Admin extends Person {
         }
         if (em) {
             log.info(ConsoleColors.RED_BOLD_BRIGHT + "wrong credential try again .....");
+            
         }
         return null;
 
@@ -425,9 +444,25 @@ public class Admin extends Person {
 
 
     public static String register() {
-        log.info(ConsoleColors.BLUE + " ENTER ROOTPIN:  " + ConsoleColors.RESET);
-       
-        int pin = Integer.parseInt(App.sc.nextLine());
+ 
+        int pin = 0;
+        char pinArr[] = null;
+        Console cnsl;
+   
+        if ((cnsl = System.console()) != null &&
+            (pinArr = cnsl.readPassword("%s",  ""+ ConsoleColors.BLUE + " ENTER ROOTPIN:  " + ConsoleColors.RESET)) != null) {
+          
+            
+        }
+        for (int i = 0; i < pinArr.length; i++) {
+            System.out.print("*");
+        }
+        log.info("");
+        try{pin = Integer.parseInt(String.valueOf(pinArr));}
+        catch (Exception e) {
+            log.info(ConsoleColors.RED + "invalid root pin...try again" + ConsoleColors.RESET);
+            Admin.register();
+        }
        
         
         
@@ -473,6 +508,13 @@ public class Admin extends Person {
             //INSERT INTO database
 
             //------------------------------------------------------------------------------
+            //password encryption before saving to database
+            password = Base64.getEncoder().encodeToString(password.getBytes());
+             
+
+
+
+
             String sql = "insert into admin(userName,password) values(?,?)";
             String sql2 = "select adminId, userName from admin where userName = ?";
             ResultSet rs2 = null;
@@ -534,44 +576,4 @@ public class Admin extends Person {
         
         
     }}
-    class PasswordField {
-
-        public static String readPassword (String prompt) {
-           EraserThread et = new EraserThread(prompt);
-           Thread mask = new Thread(et);
-           mask.start();
-
-           BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-           String password = "";
-
-           try {
-               password = in.readLine();
-           } catch (IOException ioe) {
-               ioe.printStackTrace();
-           }
-           et.stopMasking();
-           return password;
-        }
-     }   
-
-     class EraserThread implements Runnable {
-        private boolean stop;
-
-        public EraserThread(String prompt) {
-            System.out.print(prompt);
-        }public void run () {
-            while (!stop){
-                System.out.print("\010*");
-                try {
-                   Thread.currentThread().sleep(1);
-                } catch(InterruptedException ie) {
-                   ie.printStackTrace();
-                }
-             }
-          }
-
-          public void stopMasking() {
-             this.stop = true;
-          }
-     }
 

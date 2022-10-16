@@ -8,15 +8,25 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.Scanner;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App {
-    static final String DB_URL = "jdbc:mysql://localhost/resultdb";
-    static final String USER = "root";
-    static final String PASS = "123456789";
+   
+        
+         
+         
+  
+     
+       
+  static final Properties rp = ReadProperties.read();
+    static final String DB_URL = rp.getProperty("DB_URL");
+    static final String USER = rp.getProperty("USER");
+    static final String PASS = rp.getProperty("PASS");
+    
     static Long id;
     static String name;
     static String fatherName;
@@ -36,7 +46,7 @@ public class App {
     static Float percentage;
     static int count = 0;
 
-    static final int ROOTPIN = 20222022;
+    static final int ROOTPIN = Integer.parseInt(ReadProperties.read().getProperty("ROOTPIN"));
     
     static Candidate c1;
     static Result r1;
@@ -79,7 +89,11 @@ public class App {
                 + ConsoleColors.RESET);
         
         
-        int answer = Integer.parseInt(sc.nextLine());
+        int answer=0 ;
+        try{answer= Integer.parseInt(sc.nextLine());}
+        catch (Exception e) {
+            
+        }
 
         while (answer != 5 && answer != 1 && answer != 2 && answer != 3 && answer != 4) {
             log.info(ConsoleColors.GREEN_BOLD_BRIGHT + "you should input  1 || 2 || 3 || 4 ||5 to continue");
@@ -101,8 +115,13 @@ public class App {
         Long tmp=0l;
         
         
-        
-             tmp = Long.parseLong(sc.nextLine());
+       
+        try{ tmp = Long.parseLong(sc.nextLine());}
+        catch (Exception e) {
+            log.info(ConsoleColors.RED + "wrong number format..try again" + ConsoleColors.RESET);
+            App.viewResult();
+        }
+            
         
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 PreparedStatement pst = conn.prepareStatement(sql);) {
@@ -145,11 +164,11 @@ public class App {
             c1 = new Candidate(id, name, standard, dob, fatherName);
             r1 = new Result(physics, chemistry, mathematics, computerScience, english);
 
-            log.info(c1.showMyDetail(id));
+            System.out.println(c1.showMyDetail(id));
 
-            log.info(r1.toString());
+            System.out.println(r1.toString());
 
-            log.info("" + ConsoleColors.GREEN_BOLD + "Enter 0 to exit OR  1 to print Result to pdf:  "
+            System.out.println("" + ConsoleColors.GREEN_BOLD + "Enter 0 to exit OR  1 to print Result to pdf:  "
                     + ConsoleColors.RESET);
             try {
                 
@@ -164,7 +183,7 @@ public class App {
                 }
           
                 if (printChoice == 1) {
-                    log.info(Print.printpdf(c1, r1, id));
+                    System.out.println(Print.printpdf(c1, r1, id));
                     //pdf file, should be opening in default text editor or web browser
                     File file = new File(String.format(".\\result%d.pdf", id));
 
@@ -179,6 +198,7 @@ public class App {
                 App.viewResult();
             }
             
+
 
         } else {
             log.info("\n                          " + ConsoleColors.RED_BOLD_BRIGHT

@@ -182,7 +182,7 @@ static  String percentage = "PERCENTAGE";
 
             }
             rend = at.render();
-            log.info("\n"+ConsoleColors.GREEN_BOLD_BRIGHT+rend2+"\n"+ConsoleColors.CYAN_BOLD+rend+"\n");
+            System.out.println("\n"+ConsoleColors.GREEN_BOLD_BRIGHT+rend2+"\n"+ConsoleColors.CYAN_BOLD+rend+"\n");
   
             log.info(""+ConsoleColors.GREEN_BOLD+"Enter 0 to exit OR  1 to print Result to pdf:  "+ConsoleColors.RESET);
     
@@ -196,7 +196,7 @@ static  String percentage = "PERCENTAGE";
         }
      
         if (printChoice == 1) {
-            log.info(Print.printpdf(rankList));
+            System.out.println(Print.printpdf(rankList));
           //pdf file, should be opening in default text editor or web browser
             File file = new File(".\\rankList.pdf");
             
