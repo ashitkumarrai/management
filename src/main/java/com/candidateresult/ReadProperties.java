@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import com.itextpdf.text.pdf.codec.Base64.InputStream;
+
 import lombok.extern.slf4j.Slf4j; 
 @Slf4j
 public class ReadProperties {
@@ -24,11 +26,11 @@ public class ReadProperties {
             
             // Add a wrapper around reader object 
             //p.load(new FileInputStream(Paths.get(".")); 
-           
-            p.load( new FileInputStream(Paths.get(".").toAbsolutePath().normalize().toString()+File.separator+"credentials.properties"));
+          
+            p.load( new FileInputStream("src/main/resources/credentials.properties"));
             
            
-            // access properties data 
+      
             return p; 
             
         }
@@ -36,7 +38,7 @@ public class ReadProperties {
   
         // create properties object
         catch(Exception e) {
-            log.info(ConsoleColors.RED+"error in loading properties file"+ConsoleColors.RESET);
+            log.info(ConsoleColors.RED+"error in loading properties file"+ConsoleColors.RESET+e.getMessage()+"\n"+e.getStackTrace());
           
             
       
